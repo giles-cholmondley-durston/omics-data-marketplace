@@ -1,9 +1,9 @@
 import { Ocean } from '@oceanprotocol/squid'
 import { Layout } from 'antd'
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import * as Web3 from 'web3'
-import './App.css'
+import Account from './Account'
 import Datasets from './Datasets'
 import PublishDataset from './PublishDataset'
 
@@ -13,8 +13,13 @@ window.ethereum.enable()
 const { Header, Content, Footer } = Layout
 
 class App extends Component {
-  componentDidMount() {
-    this.ocean = new Ocean.getInstance({
+  constructor(props) {
+    super()
+    this.state = { ocean: null }
+  }
+
+  async componentDidMount() {
+    const ocean = await new Ocean.getInstance({
       web3Provider: web3,
       nodeUri: 'http://localhost:8545',
       aquariusUri: 'http://localhost:5000',
@@ -25,27 +30,38 @@ class App extends Component {
       password: 'node0',
       address: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
     })
-    console.log('Finished loading contracts!')
+    this.setState({ ocean })
   }
 
   render() {
+    const { ocean } = this.state
+
     return (
-      <Layout style={{ height: '100vh' }}>
-        <Header>
-          <h2 style={{ color: '#fff' }}>Omics Data Marketplace</h2>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header style={{ margin: '10px 0' }}>
+          <Link to="/">
+            <img
+              src={require('./images/logo.svg')}
+              alt=""
+              style={{ width: 500 }}
+            />
+          </Link>
+          <div style={{ float: 'right' }}>
+            {ocean && <Account ocean={ocean} />}
+          </div>
         </Header>
-        <Layout style={{ padding: '25px 50px' }}>
-          {this.ocean ? (
+        <Layout style={{ padding: '10px 50px' }}>
+          {ocean ? (
             <Content>
               <Switch>
                 <Route
                   path="/"
                   exact
-                  render={() => <Datasets ocean={this.ocean} />}
+                  render={() => <Datasets ocean={ocean} />}
                 />
                 <Route
                   path="/publish-dataset"
-                  render={() => <PublishDataset ocean={this.ocean} />}
+                  render={() => <PublishDataset ocean={ocean} />}
                 />
               </Switch>
             </Content>

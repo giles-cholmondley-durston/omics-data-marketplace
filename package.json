@@ -6,17 +6,22 @@
     "react-scripts": "2.1.5"
   },
   "dependencies": {
+    "@craco/craco": "^3.5.0",
     "@oceanprotocol/squid": "^0.3.0",
     "antd": "^3.13.5",
+    "craco-antd": "^1.10.0",
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.10",
     "react": "^16.8.2",
+    "react-blockies": "^1.4.1",
     "react-dom": "^16.8.2",
     "react-router-dom": "^4.3.1",
     "web3": "^1.0.0-beta.46"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "nodemon -w ./src/styles/customTheme.less ./craco.config.js --exec 'craco start'",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

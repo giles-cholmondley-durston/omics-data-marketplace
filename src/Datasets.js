@@ -1,4 +1,4 @@
-import { Button, Card } from 'antd'
+import { Button, Card, Col, Row } from 'antd'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -8,15 +8,13 @@ class Datasets extends Component {
     this.state = { dbAssets: [] }
   }
 
-  componentWillReceiveProps() {
-    if (this.props.ocean) {
-      this.retrieveAssets()
-    }
+  componentDidMount() {
+    this.retrieveAssets()
   }
 
   async retrieveAssets() {
     this.dbAssets = await this.props.ocean
-      .searchAssetsByText('Office Humidity')
+      .searchAssetsByText('vcf')
       .then(dbAssets => this.setState({ dbAssets }))
   }
 
@@ -45,32 +43,45 @@ class Datasets extends Component {
       accounts[0]
     )
   }
+
   render() {
     const { dbAssets } = this.state
     return (
       <div>
         <Link to="/publish-dataset">
-          <Button style={{ marginBottom: '25px' }}>Publish new dataset</Button>
+          <Button size="large" style={{ marginBottom: '25px' }}>
+            Publish new dataset
+          </Button>
         </Link>
-        {dbAssets &&
-          dbAssets.map(dbAsset => {
-            const asset = dbAsset.service[2].metadata.base
-            return (
-              <Card key={dbAsset.id} style={{ marginBottom: '25px' }}>
-                <h3>{asset.name}</h3>
-                <p>{asset.description}</p>
-                <p>
-                  {asset.author} · {asset.license}
-                </p>
-                <p>
-                  <b>Price:</b> {asset.price} Ọ
-                </p>
-                <Button onClick={() => this.consumeAsset(dbAsset)}>
-                  Buy this dataset
-                </Button>
-              </Card>
-            )
-          })}
+        <Row>
+          {dbAssets &&
+            dbAssets.map(dbAsset => {
+              const asset = dbAsset.service.filter(
+                obj => obj.type === 'Metadata'
+              )[0].metadata.base
+              return (
+                <Col xl={12}>
+                  <Card key={dbAsset.id} style={{ marginBottom: '25px' }}>
+                    <h3>{asset.name}</h3>
+                    <p>{asset.description}</p>
+                    <p>
+                      {asset.author} · {asset.license}
+                    </p>
+                    <p>
+                      <b>Price:</b> {asset.price} Ọ
+                    </p>
+                    <Button
+                      size="large"
+                      type="primary"
+                      onClick={() => this.consumeAsset(dbAsset)}
+                    >
+                      Buy this dataset
+                    </Button>
+                  </Card>
+                </Col>
+              )
+            })}
+        </Row>
       </div>
     )
   }

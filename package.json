@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@craco/craco": "^3.5.0",
-    "@oceanprotocol/squid": "^0.3.0",
+    "@oceanprotocol/squid": "0.2.8",
     "antd": "^3.13.5",
     "craco-antd": "^1.10.0",
     "node-sass": "^4.11.0",

@@ -53,15 +53,15 @@ class Datasets extends Component {
             Publish new dataset
           </Button>
         </Link>
-        <Row>
+        <Row gutter={24}>
           {dbAssets &&
             dbAssets.map(dbAsset => {
               const asset = dbAsset.service.filter(
                 obj => obj.type === 'Metadata'
               )[0].metadata.base
               return (
-                <Col xl={12}>
-                  <Card key={dbAsset.id} style={{ marginBottom: '25px' }}>
+                <Col xl={12} key={dbAsset.id}>
+                  <Card style={{ marginBottom: '25px' }}>
                     <h3>{asset.name}</h3>
                     <p>{asset.description}</p>
                     <p>

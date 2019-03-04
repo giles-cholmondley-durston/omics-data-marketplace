@@ -66,7 +66,7 @@ class App extends Component {
               </Switch>
             </Content>
           ) : (
-            <p>Loadin...</p>
+            <p>Loading...</p>
           )}
         </Layout>
         <Footer>Copyright GeneOS 2019 </Footer>
